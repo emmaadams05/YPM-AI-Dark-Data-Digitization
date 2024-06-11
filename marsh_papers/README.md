@@ -7,7 +7,7 @@
 
 ---
 ## Project & System Requirements
-* Python 3.11 & pip3
+* Python3.11 & pip3
     * *Note*: Python 3.12 and above **will not work** with our usage of spaCy.
 * Google Cloud Project & Account
     * Storage API enabled with desired bucket of PDFs to extract entities from
