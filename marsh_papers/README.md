@@ -6,7 +6,7 @@
 * Uses [*spaCy*](https://spacy.io/api/entityrecognizer) for Named Entity Recognition
 
 ---
-## Project Requirements
+## Project & System Requirements
 * Python 3.11 & pip3
     * *Note*: Python 3.12 and above **will not work** with our usage of spaCy.
 * Google Cloud Project & Account
