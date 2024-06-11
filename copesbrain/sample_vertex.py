@@ -2,19 +2,53 @@
 import os
 import base64
 import vertexai
+import pandas as pd
 from vertexai.generative_models import GenerativeModel, Part, FinishReason
 import vertexai.preview.generative_models as generative_models
 
-#set the project to be copesbrain
-os.environ["GCLOUD_PROJECT"] = "copesbrain"
+# specify the  Google Cloud Service Account key
+os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = os.path.join(os.path.dirname(__file__), "credentials.json")
 
-#make sure to include the correct project ID under project, and location
-vertexai.init(project="copesbrain", location="us-central1")
-model = GenerativeModel(
-    "gemini-1.5-flash-001",
-)
+def list_blobs(bucket_name:str) -> dict[str, str]:
+    """
+    Use: find all file names from a specific bucket in Google Cloud Storage (GCS)
+
+    Parameter:
+            bucket_name (string): the specific bucket name in GCS
+    
+    Returns: dictionary of all file names in GCS bucket and their respective URIs.
+            Dict Keys: pdf file names.
+            Dict Values: GCS spcecific URI for files.
+    """
+
+    #initialize GCS client
+    storage_client = storage.Client()
+
+    # Note: Client.list_blobs requires at least package version 1.17.0.
+    blobs = storage_client.list_blobs(bucket_name)
+
+    uri_dict = dict()
+
+    #loop through all blobs
+    for blob in blobs:
+        #create a new dictionary entry to have the file name and respective URI
+        uri_dict[blob.name] = ("gs://" + blob.id[:-(len(str(blob.generation)) + 1)])
+
+    return uri_dict
+
 
 def generate_text(image_uri):
+    """
+    Use: Utilizes Google Cloud's Vetex AI to extract the label text and description from a JPEG image file stored in a Google Cloud Storage Bucket
+    
+    Parameters:
+            image_uri: (str), the string of a GCS URI
+
+    Returns: the response of GC Vertex AI scan on the image
+
+    """
+    print(f"Generating label text & description for blob {image_uri}.")
+    
     #include the URI from Google Cloud Storage for the image.
     image1 = Part.from_uri(
         mime_type="image/jpeg",
@@ -37,17 +71,86 @@ def generate_text(image_uri):
 
     responses = model.generate_content(
         #insert your prompt here; be as specific as possible
-        ["""Identify the written text on the label on the main subject of the image. Ignore the ruler on the bottom. Only output the text, no other words.""", image1],
+        ["""Identify the written text and numbers on the label on the main subject of the image, if there is no text or numbers, identify this as "no text". Ignore the ruler on the bottom. Then describe the label (include color, shape, material like paint or paper or sticker, etc.). Be Concise but accurate and clear in the description. Return your response in the form: label_text; label_description""", image1],
         generation_config=generation_config,
         safety_settings=safety_settings,
         stream=True,
     )
 
     for response in responses:
-        print(response.text, end="")
+        print(image_uri, "text:", response.text, end="")
+        return response.text
 
 
-test = {'ID0006.jpg': 'gs://copesbrain_samplebucket1/ID0006.jpg', 'ID0027.jpg': 'gs://copesbrain_samplebucket1/ID0027.jpg', 'ID0031.jpg': 'gs://copesbrain_samplebucket1/ID0031.jpg', 'ID0069.jpg': 'gs://copesbrain_samplebucket1/ID0069.jpg', 'ID0084.jpg': 'gs://copesbrain_samplebucket1/ID0084.jpg'}
+def generate_bucket_text(project_id:str, bucket_name:str, csv_directory:str):
+    """
+    Use: Generates a Vertex AI label text response for all JPEG files in a GCS Bucket. Exports the relevant data as CSV.
+
+    Parameters:
+            project_id: the GC project ID
+            bucket_name: the name of the bucket in GCS
+            csv_directory: the path directory and file name you want for the CSV of the results. Must include the .csv extension (example "folder/results.csv")
+
+    Returns:
+            the resulting pandas dataframe of the respective results
+    """
+    #set the project to be copesbrain
+    os.environ["GCLOUD_PROJECT"] = project_id
+
+    #make sure to include the correct project ID under project, and location
+    vertexai.init(project=project_id, location="us-central1")
+
+    model = GenerativeModel(
+        "gemini-1.5-flash-001",
+    )
+
+    #get the URIs and blob names from google cloud storage
+    blobs_dict = list_blobs(bucket_name)
+    #create lists to store the image file names, responses, and label/despcription texts
+    image_files = [blob for blob in blobs_dict]
+    full_responses = []
+    label_text = []
+    label_descriptions = []
+
+    # get the Vertex AI responses for all images in the GCS bucket
+    for blob in blobs_dict:
+        current_response = generate_text(blobs_dict[blob])
+        full_responses.append(current_response)
+
+    # the repsonses *should* be split based on a semicolon, with the label text being the former and the label description being the latter
+    for response in full_responses:
+        #split each individual response and append the split text into their respective lists
+        split_response = response.split(";")
+        label_text.append(split_response[0])
+        label_descriptions.append(split_response[1])
+
+    # store the results in a dictionary and then export as a CSV
+    csv_dict = {"Pic Number": image_files, "Original Label":label_text, "Description of Label":label_descriptions}
+    df = pd.DataFrame.from_dict(csv_dict)
+    df.to_csv(csv_directory)
+
+    #return the dataframe
+    return df
+    
+
+def TEST_generate_bucket_text(csv_directory:str):
+    """test function that uses the same process but without Google Cloud usage."""
+
+    blobs_dict = {'ID0006.jpg': 'gs://copesbrain_samplebucket1/ID0006.jpg', 'ID0031.jpg': 'gs://copesbrain_samplebucket1/ID0031.jpg', 'ID0069.jpg': 'gs://copesbrain_samplebucket1/ID0069.jpg'}
+    image_files = [blob for blob in blobs_dict]
+    full_responses = ["sample_label1;sample_des1", "sample_label2;sample_des2", "sample_label3;sample_des3"]
+    label_text = []
+    label_descriptions = []
+
+    for response in full_responses:
+        split_response = response.split(";")
+        label_text.append(split_response[0])
+        label_descriptions.append(split_response[1])
 
 
-generate_text('gs://copesbrain_samplebucket1/ID0006.jpg')
+    csv_dict = {"Pic Number": image_files, "Original Label":label_text, "Description of Label":label_descriptions}
+    df = pd.DataFrame.from_dict(csv_dict)
+    df.to_csv(csv_directory)
+
+
+TEST_generate_bucket_text("results.csv")
