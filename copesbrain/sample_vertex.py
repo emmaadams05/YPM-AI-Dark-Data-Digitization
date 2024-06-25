@@ -131,26 +131,3 @@ def generate_bucket_text(project_id:str, bucket_name:str, csv_directory:str):
 
     #return the dataframe
     return df
-    
-
-def TEST_generate_bucket_text(csv_directory:str):
-    """test function that uses the same process but without Google Cloud usage."""
-
-    blobs_dict = {'ID0006.jpg': 'gs://copesbrain_samplebucket1/ID0006.jpg', 'ID0031.jpg': 'gs://copesbrain_samplebucket1/ID0031.jpg', 'ID0069.jpg': 'gs://copesbrain_samplebucket1/ID0069.jpg'}
-    image_files = [blob for blob in blobs_dict]
-    full_responses = ["sample_label1;sample_des1", "sample_label2;sample_des2", "sample_label3;sample_des3"]
-    label_text = []
-    label_descriptions = []
-
-    for response in full_responses:
-        split_response = response.split(";")
-        label_text.append(split_response[0])
-        label_descriptions.append(split_response[1])
-
-
-    csv_dict = {"Pic Number": image_files, "Original Label":label_text, "Description of Label":label_descriptions}
-    df = pd.DataFrame.from_dict(csv_dict)
-    df.to_csv(csv_directory)
-
-
-TEST_generate_bucket_text("results.csv")
