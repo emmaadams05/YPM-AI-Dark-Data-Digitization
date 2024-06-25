@@ -16,4 +16,13 @@
 5. Export the model using the *Tensorflow* option and download the model.
 6. Add the model to the same directory as a new python file.
 7. Use Teachable Machine's provided code to assign labels to images.
+
+# Function Usage:
+* **predict_exhibit_class(image_path:str):**
+  * Use: Predicts the exhibit of a given image from a specified path.
+  * Parameters:
+    image_path: Path to the image to be predicted.
+
+  * Returns: A tuple containing the predicted class (index 0) and the confidence score (index 1).
+  """
  
