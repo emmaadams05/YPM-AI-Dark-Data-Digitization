@@ -37,5 +37,5 @@
     * image_path (string): Path to the image to be predicted.
 
   * **Returns:**
-    * A dictionary where the keys are the specific categories, and the key values are a tuple of the predicted class (index 0) and the confidence of that class (index 2).
+    * A dictionary where the keys are the specific categories, and the key values are a tuple of the predicted class (index 0) and the confidence of that class (index 1).
  
