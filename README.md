@@ -42,5 +42,5 @@ The last idea for implementing AI into the museum was to train a machine learnin
 #### Future Usage:
 This project is one that will improve the effienciency of digitizing and uploading images taken in the museum. It can possibly be implemented into some of the photography pipelines used to mass assign labels (exhibit, pre/post-renovation) to image sets.
 
-## Conclusion & Wrapping Up
+## Conclusion
 AI is a tool that is versatile and can be applied for numerous different purposes. From making digitization and transcription easier to simplifying the image-labelings process, AI is a powerful resource that can be used to help improve existing pipelines. That being said, AI is still not perfect-- it is not correct 100% of the time. Additionally, it is subject to bias and does not understand cultural or human implications of specific objects and topics. AI is a powerful and versatile tool that has great prospects to be utilized in the GLAM world, but also a tool that should be used with caution. 
