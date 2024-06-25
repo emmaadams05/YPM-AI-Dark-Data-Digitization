@@ -1,0 +1,2 @@
+0 Pre-Renovation
+1 Post-Renovation
