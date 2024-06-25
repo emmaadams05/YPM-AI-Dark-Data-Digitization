@@ -30,5 +30,14 @@ Another application of AI we found interesting for the Museum is the use of Goog
 #### Future Usage:
 This project can be used for the museum to help researchers label and digitize specimen that have accumulated over time. Since drawer image-capturing technology, it can be combined with this to separate images and then identify the labels in a simple, turn-key process.
 
+## YPM Image Classification
+The last idea for implementing AI into the museum was to train a machine learning model to identify and classify images of the YPM into categories such as exhibit, pre/post-renovation, etc. To implement this we originally used Google Cloud's AutoML feature to create a multi-label classification model. Then we used Google's Teachable Machine platform to create a single-label classification model for each respective category.
 
+#### Notes & Findings:
+* Google's AutoML model is very nice and easy to use, but it was expensive and consumed the free-trial money quickly when it was deployed to an endpoint that was not actively being used.
+* Using multiple models for each label category was easier than nusing multi-label classification, this way it ensures that exhibits are mutually exclusive and only pulls one label form each individual category.
+* Using Google's Teachable Machine was very easy, trained very quickly, and customizeable.
+  * It is completely free and able to be exported to an endpoint model with Python and Tensorflow and Keras.
 
+#### Future Usage:
+This project is one that will improve the effienciency of digitizing and uploading images taken in the museum. It can possibly be implemented into some of the photography pipelines used to mass assign labels (exhibit, pre/post-renovation) to image sets.
