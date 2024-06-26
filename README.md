@@ -1,6 +1,6 @@
 # Yale Peabody Museum Dark Data Digitization with Artificial Intelligence
 
-**Goal:** The main purpose of this internship was to explore the possible implications of Artificial Intelligence (OCR, HTR image-classification, etc.) in the Museum/Gallery world.
+**Goal:** The main purpose of this internship was to explore the possible implications of Artificial Intelligence (OCR, HTR image-classification, etc.) in the Museum/Archive world.
 * Over the course of 8 weeks, we investigated Optical Character Recogition, Multi-Modal AI, and Image-Classification with respect to their possible uses at the Yale Peabody Museum.
 
 **Note:** Each project has its own files and individual README file with more details about how to set up the projects and how to utilize the functions within the code.
