@@ -20,7 +20,7 @@ One of the uses of AI we found employable for the museum is the application of O
 #### Future Usage:
 This project can be used for the museum to transcribe and process an amass of old documents and dark data. It is designed to take in mutliple PDF files simultaneously and produce transcribed text and import entities from the text.
 
-## Copesbrain Label Recogntion
+## Copesbrain Label Recognition
 Another application of AI we found interesting for the Museum is the use of Google's Vertex AI platform, a mutli-modal AI that can take in mutliple input forms (text, images, etc) and output different forms. Using this tool, we were able to extract the text on labels on some of Copes specimen.
 
 #### Notes & Findings:
