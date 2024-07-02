@@ -10,7 +10,7 @@
 
 ## Project Set Up
 1. Set up coding environment and install required packages.
-2. Create an image project on [Teachable Machine](https://teachablemachine.withgoogle.com/) (saving the project to drive is **highly reccommended**.
+2. Create an image project on [Teachable Machine](https://teachablemachine.withgoogle.com/) (saving the project to drive is **highly reccommended**).
 3. Create labels and upload sample images to their respective labels.
 4. Adjust the training settings and train the model
 5. Export the model using the *Tensorflow* option and download the model.
