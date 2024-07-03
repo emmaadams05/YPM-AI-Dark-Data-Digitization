@@ -23,7 +23,7 @@
 4. Enable Google Cloud Storage API, Billing API, Vertex API in the Google Cloud online console and download and store the API key from service account.
 5. Download *sample_vertex.py* and run the functions as described below. Change the prompt in the generate_text function surrounded by 3 double quotation marks to fit your project's needs.
    
-**Note:** To get the raw code directly from Google, go to *Google Cloud Console &rarr; Vertex AI Studio &rarr; Multimodal*, then create a single turn prompt and add an image (import from Cloud Storage). Run and select *get code* and install the packages and change the image directory to match any image files. 
+**Note:** To get the raw code directly from Google, go to *Google Cloud Console &rarr; Vertex AI Studio &rarr; Multimodal*, then create a single turn prompt and add an image (import from Cloud Storage) using *insert media*. Run and select *get code* and install the packages and change the image directory to match any image files. 
 
 ## Fucntion Usage
 * *list_blobs(bucket_name):* Finds all file names from a specific bucket in Google Cloud Storage (GCS).
