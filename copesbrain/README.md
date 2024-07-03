@@ -13,7 +13,16 @@
     * [Service account](https://cloud.google.com/iam/docs/service-account-overview) and key (named *credentials.json*) downloaded into designatied project folder
 * **Required Libraries & APIs**
     * [Google Cloud CLI](https://cloud.google.com/sdk/docs/install?_gl=1*1ff8ux8*_ga*NzQ4NDE0NDQuMTcxNjIzMDQwMw..*_ga_WH2QY8WWF5*MTcxNjkxNTU2My4xNC4xLjE3MTY5MTU5MjYuMC4wLjA.&_ga=2.41872420.-74841444.1716230403&_gac=1.195626590.1716910793.CjwKCAjwgdayBhBQEiwAXhMxtrfmcEdVJMyuSMQoN7SUSBs5O_wTNO1Q1W5PnTayCLBrCcbLhPnWSRoCOfgQAvD_BwE) (You must authorize the Service Account)
+    * [Vertex AI SDK](https://cloud.google.com/python/docs/reference/aiplatform/latest/index.html)
     * os, base64, pandas
+ 
+## Project Setup
+1. Set up coding environment and install required packages.
+2. Install Google Cloud CLI and Google Cloud AI Platform package. 
+3. Create a Google Cloud project and store image files in a bucket in Google Cloud Storage.
+4. Enable Google Cloud Storage API, Billing API, Vertex API in the Google Cloud online console and download and store the API key from service account.
+5. Download *sample_vertex.py* and run the functions as described below. Change the prompt in the generate_text function surrounded by 3 double quotation marks to fit your project's needs.
+**Note:** To get the raw code directly from Google, go to Google Cloud Console -> Vertex AI Studio -> Multimodal, then create a single turn prompt and add an image. The hit *get code* and install the packages and change the image directory to match any image files. 
 
 ## Fucntion Usage
 * *list_blobs(bucket_name):* Finds all file names from a specific bucket in Google Cloud Storage (GCS).
